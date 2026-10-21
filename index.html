@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Just Necessary · Architectural 3D Residences</title>
+<meta name="description" content="Architect-built SketchUp + Lumion scenes: the model, the light, the drawings and the post-production in one file. 30 models on CGTrader, rated 4.7/5.">
+<meta property="og:title" content="Just Necessary · Architectural 3D Residences">
+<meta property="og:description" content="Architect-built SketchUp + Lumion scenes, ready to open, study and re-render.">
+<meta property="og:image" content="img/hill-dawn.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<link rel="preload" as="image" href="media/hero-poster.jpg">
+<style>
+/* Layout: a residential sales suite for 3D models — dusk-lit hero film, numbered sections (01 Proposition … 07 Studio),
+   residences as large "listings" with day/night swaps, an interior gallery, a final-vs-ID pass slider, a filtered catalogue. */
+:root{
+  --basalt:#11110f;      /* night ground */
+  --char:#1b1a17;        /* raised dark */
+  --lime:#ece7de;        /* limestone ground */
+  --paper:#f6f3ee;       /* light raised */
+  --ink:#16150f;         /* text on light */
+  --bone:#efe9df;        /* text on dark */
+  --mute-d:#9a9488;      /* muted on dark */
+  --mute-l:#6c665b;      /* muted on light */
+  --line-d:rgba(239,233,223,.14);
+  --line-l:rgba(22,21,15,.14);
+  --oak:#b58a5a;         /* brass / oak accent */
+  --oak-2:#d6b48a;
+  --f-disp:"Instrument Serif","Times New Roman",Georgia,serif;
+  --f-body:"Hanken Grotesk","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"DM Mono",ui-monospace,Consolas,monospace;
+  --gut:clamp(18px,4vw,56px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--basalt);color:var(--bone);font:400 16px/1.65 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
+p{margin:0}
+em{font-style:italic}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.wrap{max-width:1440px;margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+::selection{background:var(--oak);color:var(--basalt)}
+:focus-visible{outline:2px solid var(--oak-2);outline-offset:3px}
+
+/* ── loader ── */
+.loader{position:fixed;inset:0;z-index:100;background:var(--basalt);display:grid;place-items:center;transition:transform 1.1s var(--ease)}
+.loader.out{transform:translateY(-100%)}
+.loader .lw{display:grid;gap:14px;justify-items:center}
+.loader .count{font:400 clamp(72px,14vw,180px)/.9 var(--f-disp);font-variant-numeric:tabular-nums}
+.loader .bar{width:min(320px,60vw);height:1px;background:var(--line-d);position:relative;overflow:hidden}
+.loader .bar i{position:absolute;inset:0;background:var(--oak);transform-origin:left;transform:scaleX(0)}
+
+/* ── nav ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .5s,backdrop-filter .5s,border-color .5s;border-bottom:1px solid transparent}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.nav.solid{background:rgba(17,17,15,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line-d)}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font:400 26px/1 var(--f-disp);letter-spacing:.01em}
+.brand b em{color:var(--oak-2)}
+.brand span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute-d)}
+.links{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;font-size:13.5px;color:var(--bone);opacity:.82;transition:opacity .2s;display:flex;gap:6px;align-items:baseline}
+.links a small{font-family:var(--f-mono);font-size:10px;color:var(--oak-2)}
+.links a:hover{opacity:1}
+.cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:500 13.5px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--line-d);transition:background .3s,color .3s,border-color .3s;white-space:nowrap}
+.cta:hover{background:var(--bone);color:var(--basalt);border-color:var(--bone)}
+.cta.fill{background:var(--oak);border-color:var(--oak);color:var(--basalt)}
+.cta.fill:hover{background:var(--oak-2);border-color:var(--oak-2)}
+.cta .ar{transition:transform .3s var(--ease)}
+.cta:hover .ar{transform:translate(3px,-3px)}
+.menu-btn{display:none;background:none;border:1px solid var(--line-d);color:var(--bone);border-radius:999px;padding:10px 16px;font:500 13px var(--f-body);cursor:pointer}
+@media(max-width:1060px){.links,.nav .cta{display:none}.menu-btn{display:block}}
+.sheet{position:fixed;inset:0;z-index:60;background:var(--basalt);padding:96px var(--gut) 40px;display:flex;flex-direction:column;gap:6px;transform:translateY(-100%);transition:transform .7s var(--ease)}
+.sheet.open{transform:none}
+.sheet a{font:400 clamp(34px,8vw,56px)/1.15 var(--f-disp);text-decoration:none;display:flex;gap:14px;align-items:baseline}
+.sheet a small{font-family:var(--f-mono);font-size:12px;color:var(--oak-2)}
+.sheet .close{position:absolute;top:22px;right:var(--gut)}
+
+/* ── hero ── */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.08);animation:drift 22s ease-out forwards}
+@keyframes drift{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,15,.55) 0%,rgba(17,17,15,0) 28%,rgba(17,17,15,0) 46%,rgba(17,17,15,.82) 100%)}
+.hero .wrap{width:100%;padding-bottom:clamp(28px,5vw,56px);display:grid;gap:28px}
+.hero h1{font:400 clamp(54px,10.4vw,168px)/.92 var(--f-disp);letter-spacing:-.015em}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln span{display:inline-block;transform:translateY(110%)}
+.ready .hero h1 .ln span{transform:none;transition:transform 1.3s var(--ease)}
+.ready .hero h1 .ln:nth-child(2) span{transition-delay:.12s}
+.hero h1 em{color:var(--oak-2)}
+.hero .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:end;border-top:1px solid var(--line-d);padding-top:22px}
+@media(max-width:820px){.hero .row{grid-template-columns:1fr}}
+.hero .lede{max-width:52ch;color:#ddd6ca;font-size:17px}
+.hero .acts{display:flex;gap:10px;flex-wrap:wrap}
+.lights{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lights .mono{color:var(--mute-d);margin-right:6px;font-size:11px}
+.lights span.l{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px;border-radius:999px;border:1px solid var(--line-d);color:var(--mute-d);transition:all .5s}
+.lights span.l.on{color:var(--basalt);background:var(--bone);border-color:var(--bone)}
+.hero .fade-up{opacity:0;transform:translateY(18px)}
+.ready .hero .fade-up{opacity:1;transform:none;transition:opacity 1s .5s,transform 1s .5s var(--ease)}
+
+/* ── marquee ── */
+.marquee{border-top:1px solid var(--line-d);border-bottom:1px solid var(--line-d);overflow:hidden;white-space:nowrap;padding:18px 0;background:var(--basalt)}
+.marquee .tr{display:inline-flex;gap:46px;animation:mq 46s linear infinite;padding-left:46px}
+.marquee span{font:400 clamp(22px,2.6vw,34px)/1 var(--f-disp);color:var(--bone)}
+.marquee span i{font-style:normal;color:var(--oak);margin-left:46px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ── sections ── */
+section{position:relative}
+.light{background:var(--lime);color:var(--ink)}
+.light .mono.k{color:var(--mute-l)}
+.pad{padding-block:clamp(84px,11vw,160px)}
+.eyebrow{display:flex;gap:14px;align-items:center;margin-bottom:28px}
+.eyebrow .n{color:var(--oak)}
+.eyebrow .bar{flex:0 0 46px;height:1px;background:currentColor;opacity:.4}
+.h2{font:400 clamp(40px,6.2vw,96px)/.98 var(--f-disp);letter-spacing:-.01em}
+.h2 em{color:var(--oak)}
+.dark .h2 em{color:var(--oak-2)}
+.kicker{max-width:56ch;font-size:17px}
+.dark .kicker{color:#cfc8bb}
+.light .kicker{color:#3e3a32}
+
+/* reveal: hidden only when JS runs */
+.js .rv{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv-img{clip-path:inset(12% 0 12% 0);transition:clip-path 1.4s var(--ease)}
+.js .rv-img.in{clip-path:inset(0 0 0 0)}
+
+/* 01 proposition */
+.prop{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(36px,6vw,96px);align-items:end}
+@media(max-width:900px){.prop{grid-template-columns:1fr}}
+.prop .pic{aspect-ratio:4/5;overflow:hidden;border-radius:2px}
+.prop .pic img{width:100%;height:118%;object-fit:cover;will-change:transform}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line-l);margin-top:44px}
+.stat{padding:22px 0 22px;border-bottom:1px solid var(--line-l);display:grid;gap:6px}
+.stat:nth-child(odd){padding-right:20px;border-right:1px solid var(--line-l)}
+.stat:nth-child(even){padding-left:22px}
+.stat b{font:400 clamp(44px,5vw,74px)/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.stat>span{color:var(--mute-l);font-size:14px}
+
+/* 02 residences */
+.res-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.7fr);gap:32px;align-items:end;margin-bottom:clamp(54px,7vw,100px)}
+@media(max-width:900px){.res-head{grid-template-columns:1fr}}
+.listing{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:clamp(28px,4vw,64px);align-items:center;padding-block:clamp(40px,5vw,70px);border-top:1px solid var(--line-d)}
+.listing:nth-child(even){grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr)}
+.listing:nth-child(even) .media{order:2}
+@media(max-width:900px){.listing,.listing:nth-child(even){grid-template-columns:1fr}.listing:nth-child(even) .media{order:0}}
+.media{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:2px;cursor:pointer;background:var(--char)}
+.media img,.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.1s ease,transform 1.6s var(--ease)}
+.media .b{opacity:0}
+.media:hover .b,.media.alt .b{opacity:1}
+.media:hover img{transform:scale(1.035)}
+.media .tag{position:absolute;left:16px;bottom:16px;z-index:2;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;background:rgba(17,17,15,.66);backdrop-filter:blur(6px);padding:7px 11px;border-radius:999px;color:var(--bone)}
+.media .tag i{font-style:normal;color:var(--oak-2)}
+.info{display:grid;gap:18px;align-content:center}
+.info .no{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--oak-2)}
+.info h3{font:400 clamp(34px,3.8vw,58px)/1 var(--f-disp)}
+.info h3 em{color:var(--oak-2)}
+.info p{color:#cfc8bb;max-width:44ch}
+.spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line-d)}
+.spec div{padding:14px 0;border-bottom:1px solid var(--line-d);display:grid;gap:2px}
+.spec div:nth-child(odd){padding-right:14px}
+.spec dt,.spec .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-d)}
+.spec .v{font:400 26px/1.15 var(--f-disp);font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line-d);padding:5px 10px;border-radius:999px;color:#cfc8bb}
+
+/* 03 interiors (horizontal) */
+.hscroll{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:18px;cursor:grab;scrollbar-width:thin;scrollbar-color:var(--oak) transparent;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.hscroll.drag{cursor:grabbing;scroll-snap-type:none}
+.room{flex:0 0 min(78vw,620px);scroll-snap-align:start;display:grid;gap:14px;text-decoration:none;color:var(--ink)}
+.room .ph{aspect-ratio:4/3;overflow:hidden;border-radius:2px;position:relative;background:#d8d1c5}
+.room .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease),opacity 1s}
+.room .ph .b{position:absolute;inset:0;opacity:0}
+.room:hover .ph img{transform:scale(1.05)}
+.room:hover .ph .b{opacity:1}
+.room .meta{display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-top:1px solid var(--line-l);padding-top:12px}
+.room h3{font:400 30px/1.05 var(--f-disp)}
+.room .mono{color:var(--mute-l);font-size:11px}
+.free{display:inline-block;background:var(--oak);color:var(--basalt);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;padding:4px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.hint{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:18px}
+.hint .arrows{display:flex;gap:8px}
+.hint button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line-l);background:none;cursor:pointer;font-size:18px;color:var(--ink);transition:background .3s,color .3s}
+.hint button:hover{background:var(--ink);color:var(--lime)}
+
+/* 04 the file */
+.file{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(36px,5vw,80px);align-items:center}
+@media(max-width:900px){.file{grid-template-columns:1fr}}
+.compare{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:2px;user-select:none;touch-action:pan-y;--x:50%}
+.compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.compare .top{clip-path:inset(0 0 0 var(--x))}
+.compare .h{position:absolute;top:0;bottom:0;left:var(--x);width:1px;background:var(--bone);transform:translateX(-.5px)}
+.compare .h::after{content:"⟷";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:var(--bone);color:var(--basalt);display:grid;place-items:center;font-size:18px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.compare .lb{position:absolute;top:14px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;background:rgba(17,17,15,.6);padding:6px 10px;border-radius:999px}
+.compare .lb.l{left:14px}.compare .lb.r{right:14px}
+.compare input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.boxlist{display:grid;border-top:1px solid var(--line-d)}
+.boxlist details{border-bottom:1px solid var(--line-d)}
+.boxlist summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:baseline;padding:22px 0}
+.boxlist summary::-webkit-details-marker{display:none}
+.boxlist summary .n{font-family:var(--f-mono);font-size:12px;color:var(--oak-2)}
+.boxlist summary h3{font:400 clamp(26px,2.6vw,38px)/1.1 var(--f-disp)}
+.boxlist summary .pl{font-size:22px;color:var(--mute-d);transition:transform .4s var(--ease)}
+.boxlist details[open] summary .pl{transform:rotate(45deg)}
+.boxlist details p{padding:0 0 24px 56px;color:#cfc8bb;max-width:52ch}
+
+/* 05 catalogue */
+.cat-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{font:500 13px var(--f-body);padding:9px 16px;border-radius:999px;border:1px solid var(--line-l);background:none;color:var(--ink);cursor:pointer;transition:all .3s}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:34px 22px}
+.item{text-decoration:none;color:var(--ink);display:grid;gap:12px;transition:opacity .5s,transform .5s var(--ease)}
+.item.hide{display:none}
+@media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 12px}.item h3{font-size:18px}.item .c{display:none}.item .go{font-size:12px}
+  .hero::after{background:linear-gradient(180deg,rgba(17,17,15,.55) 0%,rgba(17,17,15,.2) 26%,rgba(17,17,15,.7) 52%,rgba(17,17,15,.92) 100%)}}
+.item .ph{aspect-ratio:4/3;overflow:hidden;border-radius:2px;background:#d8d1c5}
+.item .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease),filter .6s}
+.item:hover .ph img{transform:scale(1.06)}
+.item .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-top:1px solid var(--line-l);padding-top:10px}
+.item h3{font:400 23px/1.12 var(--f-disp)}
+.item .c{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-l);white-space:nowrap}
+.item .go{font-size:13px;color:var(--mute-l)}
+.item:hover .go{color:var(--oak)}
+
+/* 06 free */
+.freebox{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:54px}
+@media(max-width:900px){.freebox{grid-template-columns:1fr}}
+.fcard{border:1px solid var(--line-d);border-radius:2px;padding:28px;display:grid;gap:16px;align-content:start;text-decoration:none;transition:background .4s,border-color .4s;min-height:260px}
+.fcard:hover{background:var(--char);border-color:var(--oak)}
+.fcard .mono{color:var(--oak-2)}
+.fcard h3{font:400 34px/1.05 var(--f-disp)}
+.fcard p{color:#cfc8bb}
+.fcard .go{margin-top:auto;font-size:14px}
+
+/* 07 studio */
+.studio{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(36px,6vw,96px);align-items:center}
+@media(max-width:900px){.studio{grid-template-columns:1fr}}
+.studio .pic{aspect-ratio:3/4;overflow:hidden;border-radius:2px}
+.studio .pic img{width:100%;height:118%;object-fit:cover;object-position:62% 88%}
+.quote{font:400 clamp(30px,3.4vw,50px)/1.12 var(--f-disp)}
+.quote em{color:var(--oak)}
+
+/* footer */
+footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px));overflow:hidden}
+.bigcta{display:grid;gap:30px;justify-items:start;padding-bottom:70px;border-bottom:1px solid var(--line-d)}
+.bigcta h2{font:400 clamp(48px,9vw,150px)/.92 var(--f-disp);letter-spacing:-.015em}
+.bigcta h2 em{color:var(--oak-2)}
+.fgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;padding-block:44px}
+@media(max-width:820px){.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fgrid h4{margin:0 0 12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-d);font-weight:400}
+.fgrid a{display:block;text-decoration:none;color:#ddd6ca;padding:3px 0;font-size:15px}
+.fgrid a:hover{color:var(--oak-2)}
+.wordmark{font:400 clamp(80px,19vw,330px)/.8 var(--f-disp);letter-spacing:-.03em;color:var(--char);white-space:nowrap;margin-top:10px;user-select:none}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--mute-d);font-size:13px;padding-top:24px}
+
+/* cursor */
+.cursor{position:fixed;left:0;top:0;z-index:70;pointer-events:none;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:var(--bone);color:var(--basalt);display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;transform:scale(0);transition:transform .35s var(--ease)}
+.cursor.on{transform:scale(1)}
+@media (hover:none){.cursor{display:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv,.js .rv-img{opacity:1;transform:none;clip-path:none}
+  .hero h1 .ln span{transform:none}
+  .hero .fade-up{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="lw">
+    <div class="mono" style="color:var(--mute-d)">Just Necessary · Residences</div>
+    <div class="count" id="count">0%</div>
+    <div class="bar"><i id="lbar"></i></div>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Just Necessary, back to top"><b>Just <em>Necessary</em></b><span>3D residences</span></a>
+    <ul class="links">
+      <li><a href="#proposition"><small>01</small>Proposition</a></li>
+      <li><a href="#residences"><small>02</small>Residences</a></li>
+      <li><a href="#interiors"><small>03</small>Interiors</a></li>
+      <li><a href="#file"><small>04</small>The file</a></li>
+      <li><a href="#catalogue"><small>05</small>Catalogue</a></li>
+      <li><a href="#free"><small>06</small>Free</a></li>
+    </ul>
+    <a class="cta fill" href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">Shop on CGTrader <span class="ar">↗</span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
+  </div>
+</header>
+
+<nav class="sheet" id="sheet" aria-label="Sections">
+  <button class="menu-btn close" id="menuClose">Close</button>
+  <a href="#proposition"><small>01</small>Proposition</a>
+  <a href="#residences"><small>02</small>Residences</a>
+  <a href="#interiors"><small>03</small>Interiors</a>
+  <a href="#file"><small>04</small>The file</a>
+  <a href="#catalogue"><small>05</small>Catalogue</a>
+  <a href="#free"><small>06</small>Free</a>
+  <a href="#studio"><small>07</small>Studio</a>
+  <a class="cta fill" style="font:500 15px var(--f-body);margin-top:24px;align-self:flex-start" href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">Shop on CGTrader ↗</a>
+</nav>
+
+<main id="top">
+  <section class="hero" aria-label="Modern Hill House, one camera through four lighting setups">
+    <img class="poster" src="media/hero-poster.jpg" alt="">
+    <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="media/hero-poster.jpg">
+      <source src="media/hero-720.mp4" type="video/mp4" media="(max-width: 820px)">
+      <source src="media/hero-1080.mp4" type="video/mp4">
+    </video>
+    <div class="wrap">
+      <h1><span class="ln"><span>Residences, rendered.</span></span><span class="ln"><span><em>Yours to open.</em></span></span></h1>
+      <div class="row fade-up">
+        <div style="display:grid;gap:18px">
+          <p class="lede">Architect-built SketchUp and Lumion scenes. The model, the light, the drawing set and the post-production arrive in one file, with no protection, ready to study and re-render.</p>
+          <div class="lights" aria-hidden="true"><span class="mono">Modern Hill House · one camera</span><span class="l" data-i="0">Dawn</span><span class="l" data-i="1">Day</span><span class="l" data-i="2">Sunset</span><span class="l" data-i="3">Night</span></div>
+        </div>
+        <div class="acts">
+          <a class="cta fill" href="#residences">Explore the residences <span class="ar">↘</span></a>
+          <a class="cta" href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">CGTrader store <span class="ar">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="tr">
+    <span>SketchUp native<i>✦</i></span><span>Lumion scenes<i>✦</i></span><span>FBX · OBJ · DAE · 3DS<i>✦</i></span><span>Layered PSDs<i>✦</i></span><span>Lighting · Material ID · Sky alpha<i>✦</i></span><span>2D drawing sets<i>✦</i></span><span>No protection<i>✦</i></span>
+    <span>SketchUp native<i>✦</i></span><span>Lumion scenes<i>✦</i></span><span>FBX · OBJ · DAE · 3DS<i>✦</i></span><span>Layered PSDs<i>✦</i></span><span>Lighting · Material ID · Sky alpha<i>✦</i></span><span>2D drawing sets<i>✦</i></span><span>No protection<i>✦</i></span>
+  </div></div>
+
+  <!-- 01 -->
+  <section class="light pad" id="proposition">
+    <div class="wrap prop">
+      <div class="pic rv-img"><img data-par src="img/hill-dawn.webp" alt="Modern Hill House at dawn, pool terrace and stone wall" loading="lazy"></div>
+      <div>
+        <div class="eyebrow mono rv"><span class="n">01</span><span class="bar"></span><span class="k">The proposition</span></div>
+        <h2 class="h2 rv">Leave the modelling.<br><em>Keep the design.</em></h2>
+        <p class="kicker rv" style="margin-top:28px">Each scene is modelled the way an architect builds a project: named groups, real geometry, coordinated drawings and cameras already framed. Open it to present, to learn how the light was made, or as the starting point for your own design.</p>
+        <div class="stats rv">
+          <div class="stat"><b data-count="30">30</b><span>models on CGTrader</span></div>
+          <div class="stat"><b><span data-count="4.7" data-dec="1">4.7</span>/5</b><span>average rating, 18 reviews</span></div>
+          <div class="stat"><b><span data-count="35.5" data-dec="1">35.5</span>K</b><span>model page views</span></div>
+          <div class="stat"><b><span data-count="250">250</span>+</b><span>sales since 2023</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="pad" id="residences">
+    <div class="wrap">
+      <div class="res-head">
+        <div>
+          <div class="eyebrow mono rv"><span class="n">02</span><span class="bar"></span><span style="color:var(--mute-d)">The residences</span></div>
+          <h2 class="h2 rv">Six flagship scenes.<br><em>Day, and after dark.</em></h2>
+        </div>
+        <p class="kicker rv">Hover or tap an image to switch its lighting. Every figure below was counted from the file that ships: faces in the .obj export, saved cameras, texture maps and PSDs.</p>
+      </div>
+
+      <div id="listings"></div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="light pad" id="interiors" style="padding-bottom:clamp(60px,8vw,110px)">
+    <div class="wrap">
+      <div class="res-head" style="margin-bottom:46px">
+        <div>
+          <div class="eyebrow mono rv"><span class="n">03</span><span class="bar"></span><span class="k">Interiors</span></div>
+          <h2 class="h2 rv">Rooms you can<br><em>walk into.</em></h2>
+        </div>
+        <p class="kicker rv">The four interiors of the Hill House, each sold on its own. Furniture, lamps and dressing are modelled geometry, so the camera can pull focus through them.</p>
+      </div>
+    </div>
+    <div class="hscroll" id="rooms" tabindex="0" aria-label="Interior scenes, scroll sideways"></div>
+    <div class="wrap hint"><span class="mono k">Drag or scroll sideways</span><div class="arrows"><button type="button" id="rPrev" aria-label="Previous room">←</button><button type="button" id="rNext" aria-label="Next room">→</button></div></div>
+  </section>
+
+  <!-- 04 -->
+  <section class="pad" id="file">
+    <div class="wrap file">
+      <div>
+        <div class="eyebrow mono rv"><span class="n">04</span><span class="bar"></span><span style="color:var(--mute-d)">What's in the file</span></div>
+        <h2 class="h2 rv">Details you feel<br><em>before you notice.</em></h2>
+        <div class="compare rv" id="compare" style="margin-top:40px">
+          <img src="img/villa-id.webp" alt="Villa Horizontal, material ID pass" loading="lazy">
+          <img class="top" src="img/villa-day-full.webp" alt="Villa Horizontal, final Lumion render" loading="lazy">
+          <span class="lb l">Material ID pass</span><span class="lb r">Final render</span>
+          <span class="h"></span>
+          <input id="cmp" type="range" min="0" max="100" value="50" aria-label="Compare the final render with the material ID pass">
+        </div>
+        <p class="mono" style="color:var(--mute-d);margin-top:12px;font-size:11px">Villa Horizontal · drag to compare · every render ships with its passes</p>
+      </div>
+      <div class="boxlist rv">
+        <details open><summary><span class="n">i.</span><h3>The model</h3><span class="pl">+</span></summary><p>SketchUp native file, plus FBX, OBJ, DAE and 3DS exports. Objects are separate named groups, never welded, and the file carries no protection of any kind.</p></details>
+        <details><summary><span class="n">ii.</span><h3>The light</h3><span class="pl">+</span></summary><p>A Lumion scene with materials, cameras and lighting saved. The flagship houses ship up to four setups on one camera path: dawn, day, overcast or sunset, and night.</p></details>
+        <details><summary><span class="n">iii.</span><h3>The drawings</h3><span class="pl">+</span></summary><p>Exterior packages include a coordinated 2D set in SketchUp LayOut and PDF: site plan, floor plans, elevations and sections, up to ten sheets.</p></details>
+        <details><summary><span class="n">iv.</span><h3>The post-production</h3><span class="pl">+</span></summary><p>Every final render ships as a layered PSD with its material ID pass; the exterior scenes add lighting and sky alpha passes, so you can see how each image was finished.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="light pad" id="catalogue">
+    <div class="wrap">
+      <div class="eyebrow mono rv"><span class="n">05</span><span class="bar"></span><span class="k">The catalogue</span></div>
+      <div class="cat-head">
+        <h2 class="h2 rv">Every model,<br><em>one click from the file.</em></h2>
+        <div class="filters" id="filters" role="group" aria-label="Filter models"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="pad" id="free">
+    <div class="wrap">
+      <div class="eyebrow mono rv"><span class="n">06</span><span class="bar"></span><span style="color:var(--mute-d)">Start free</span></div>
+      <h2 class="h2 rv">Try the standard<br><em>before you buy.</em></h2>
+      <div class="freebox">
+        <a class="fcard rv" href="https://www.cgtrader.com/free-3d-models/interior/bedroom/hill-house-interior-scene-bed-room-neoclassical-interior-design" target="_blank" rel="noopener">
+          <span class="mono">Free model</span><h3>Hill House Neoclassical Bedroom</h3><p>A full interior scene from the flagship collection: 1,264,470 faces, 5,548 groups, 8 cameras.</p><span class="go">Download on CGTrader ↗</span></a>
+        <a class="fcard rv" href="https://sites.google.com/view/hotrongnhan/learn-lumion-in-1-hour/1?authuser=0" target="_blank" rel="noopener">
+          <span class="mono">Free course</span><h3>Learn Lumion in one hour</h3><p>From import to final render: materials, lighting, cameras and effects, in short lessons.</p><span class="go">Start the course ↗</span></a>
+        <a class="fcard rv" href="https://0789ef69.sibforms.com/serve/MUIFAJrBwneWZzYwk1cMhfsbCS4pNofye71d16fodvnLFNn34x1d6JLLNpWDG5a9EtDxXvkTLbudBvMiVlGA_Bs4bYkNN9ijfu_FDGjOW2IuBaxMbTDRiJaj_MIeHDsThQpWEp1BGDfDdWtdIovN7LUaJex8TfDFwhI23zdNqJKYn4gSQGE1MeipnQri2XOuk25TyXh3UHf9P3id" target="_blank" rel="noopener">
+          <span class="mono">Free presets</span><h3>Lumion exterior presets</h3><p>Four lighting presets (day, overcast, dawn, night). Sign up and they arrive by email, with new releases first.</p><span class="go">Get the presets ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="light pad" id="studio">
+    <div class="wrap studio">
+      <div class="pic rv-img"><img data-par src="img/japi-night.webp" alt="Modern Tropical Villa at night, reflected in the pool" loading="lazy"></div>
+      <div>
+        <div class="eyebrow mono rv"><span class="n">07</span><span class="bar"></span><span class="k">The studio</span></div>
+        <p class="quote rv">Only what is necessary, <em>modelled properly.</em> The file you download is the file we rendered.</p>
+        <p class="kicker rv" style="margin-top:26px">Just Necessary is the 3D studio of Ho Trong Nhan, an architect trained at IUAV Venezia and practising in Ho Chi Minh City. Every scene starts as a design project, not a product shot. Custom models, Lumion visualisation and drawing packages are available on request.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:30px" class="rv">
+          <a class="cta" style="border-color:var(--line-l)" href="https://portfolio.hotrongnhan.org/" target="_blank" rel="noopener">Architecture portfolio <span class="ar">↗</span></a>
+          <a class="cta" style="border-color:var(--line-l)" href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">Hire for custom work <span class="ar">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="bigcta">
+      <span class="mono" style="color:var(--oak-2)">Ready when you are</span>
+      <h2>Open the file.<br><em>Make it yours.</em></h2>
+      <a class="cta fill" href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">Browse all 30 models <span class="ar">↗</span></a>
+    </div>
+    <div class="fgrid">
+      <div><h4>Store</h4><a href="https://www.cgtrader.com/designers/justnecessary" target="_blank" rel="noopener">CGTrader</a><a href="https://www.turbosquid.com/Search/Artists/Just-Necessary" target="_blank" rel="noopener">TurboSquid</a><a href="https://www.cgtrader.com/free-3d-models?author=justnecessary" target="_blank" rel="noopener">Free models</a></div>
+      <div><h4>Watch</h4><a href="https://www.youtube.com/channel/UCEvaOWgotDTNSVXL-Zizb1Q" target="_blank" rel="noopener">YouTube · Just Necessary: Design</a><a href="https://sites.google.com/view/hotrongnhan/learn-lumion-in-1-hour/1?authuser=0" target="_blank" rel="noopener">Learn Lumion in 1 hour</a></div>
+      <div><h4>Studio</h4><a href="https://portfolio.hotrongnhan.org/" target="_blank" rel="noopener">portfolio.hotrongnhan.org</a><a href="#studio">About the studio</a></div>
+      <div><h4>Sections</h4><a href="#residences">Residences</a><a href="#interiors">Interiors</a><a href="#catalogue">Catalogue</a></div>
+    </div>
+    <div class="wordmark" aria-hidden="true">Just Necessary</div>
+    <div class="legal"><span>© 2026 Just Necessary · Ho Trong Nhan</span><span>All images are renders from the files on sale.</span></div>
+  </div>
+</footer>
+
+<div class="cursor" id="cursor" aria-hidden="true">View</div>
+
+<script>
+(function(){
+  var CG="https://www.cgtrader.com/3d-models/";
+  var R=[
+    {no:"No. 01",name:"Villa <em>Horizontal</em>",a:"img/villa-day.webp",b:"img/villa-night.webp",tagA:"Day",tagB:"Night",
+     text:"A long, low villa of stacked horizontal planes around a pool and fire-pit garden, with a seven-sheet LayOut drawing set.",
+     spec:[["Faces","908,547"],["Cameras","10"],["Materials","49"],["Drawing sheets","7"]],chips:["SketchUp","Lumion","Blender","Day + night"],
+     url:CG+"exterior/house/villa-horizontal-with-furniture-3d-model"},
+    {no:"No. 02",name:"Modern <em>Hill House</em>",a:"img/hill-day.webp",b:"img/hill-night.webp",tagA:"Day",tagB:"Night",
+     text:"A house set into a hillside, stone and timber over the pool terrace, with four interiors sold as separate scenes.",
+     spec:[["Faces","3,243,340"],["Cameras","15"],["Textures","139"],["Drawing sheets","10"]],chips:["4 lighting setups","15 PSDs","Full 2D set"],
+     url:CG+"exterior/house/modern-hill-house-exterior-scene-with-fully-furniture-3d-model"},
+    {no:"No. 03",name:"Modern <em>Tropical Villa</em>",video:"media/japi-daynight.mp4",a:"img/japi-day.webp",tagA:"Day to night",
+     text:"A brick-and-concrete tropical villa opening onto a reflecting pool, shipped with full PBR map sets for brick and concrete.",
+     spec:[["Faces","3,386,096"],["Cameras","10"],["Materials","225"],["Passes / render","4"]],chips:["PBR maps","Day + night","10 PSDs"],
+     url:CG+"exterior/house/modern-tropical-villa-exterior-3d-model-with-pool-and-garden"},
+    {no:"No. 04",name:"Residential <em>Highrise</em>",a:"img/tower-1.webp",b:"img/tower-2.webp",tagA:"Day",tagB:"Dusk",
+     text:"A residential tower in its city block, with every material named by its specification section, from 07 42 43 to 12 05 13.",
+     spec:[["Faces","5,321,642"],["Cameras","11"],["Maps","130"],["PSDs","11"]],chips:["4 lighting setups","Spec-named materials"],
+     url:CG+"exterior/skyscraper/residential-highrise-building-exterior-scene"},
+    {no:"No. 05",name:"Holiday <em>House</em>",a:"img/holiday-dawn.webp",b:"img/holiday-night.webp",tagA:"Dawn",tagB:"Night",
+     text:"Gabled timber volumes around a long pool. One camera path, rendered at day, dawn, overcast and night.",
+     spec:[["Faces","1,681,080"],["Cameras","10"],["Textures","177"],["Passes / render","4"]],chips:["Full 2D set","4 lighting setups"],
+     url:CG+"exterior/house/holiday-house-exterior-scene-kitchen-bedroom-furniture"},
+    {no:"No. 06",name:"Modern <em>House</em>",a:"img/modern-day.webp",b:"img/modern-night.webp",tagA:"Day",tagB:"Night",
+     text:"A glass pavilion house with a stone chimney wall and pool, sold with an A1 architectural drawing set.",
+     spec:[["Faces","612,252"],["Cameras","9"],["Materials","96"],["PSDs","9"]],chips:["2D drawings A1","4 lighting setups"],
+     url:CG+"exterior/house/modern-house-exterior-scene-with-furniture-3d-model-2d-drawing"}
+  ];
+  var ROOMS=[
+    {name:"Kitchen & Living",a:"img/kitchen-1.webp",b:"img/kitchen-3.webp",meta:"3,274,757 faces · 10 cameras",url:CG+"interior/living-room/hill-house-interior-scene-kitchen-living-room-modern-design"},
+    {name:"Master Bedroom",a:"img/master-1.webp",b:"img/master-2.webp",meta:"105 SketchUp materials · 7 cameras",url:CG+"interior/bedroom/modern-hill-house-interior-scene-master-bed-room"},
+    {name:"Modern Bedroom",a:"img/modbed-1.webp",b:"img/modbed-2.webp",meta:"8,651 groups · 10 cameras",url:CG+"interior/bedroom/hill-house-interior-scene-bed-room-modern-interior-design"},
+    {name:"Neoclassical Bedroom",free:1,a:"img/neo-1.webp",b:"img/neo-2.webp",meta:"1,264,470 faces · 8 cameras",url:"https://www.cgtrader.com/free-3d-models/interior/bedroom/hill-house-interior-scene-bed-room-neoclassical-interior-design"}
+  ];
+  var F="https://www.cgtrader.com/free-3d-models/";
+  var CAT=[
+    ["Villa Horizontal","ext","villa-horizontal-with-furniture-3d-model",CG+"exterior/house/villa-horizontal-with-furniture-3d-model"],
+    ["Modern Hill House","ext","modern-hill-house-exterior-scene-with-fully-furniture-3d-mod",CG+"exterior/house/modern-hill-house-exterior-scene-with-fully-furniture-3d-model"],
+    ["Modern Tropical Villa","ext","modern-tropical-villa-exterior-3d-model-with-pool-and-garden",CG+"exterior/house/modern-tropical-villa-exterior-3d-model-with-pool-and-garden"],
+    ["Residential Highrise · Exterior Scene","ext","residential-highrise-building-exterior-scene",CG+"exterior/skyscraper/residential-highrise-building-exterior-scene"],
+    ["Residential High-rise Building","ext","residential-building-exterior-scene",CG+"exterior/skyscraper/residential-building-exterior-scene"],
+    ["Holiday House","ext","holiday-house-exterior-scene-kitchen-bedroom-furniture",CG+"exterior/house/holiday-house-exterior-scene-kitchen-bedroom-furniture"],
+    ["Modern Guest House","ext","modern-guest-house-exterior-scene-kitchen-bedroom-furniture",CG+"exterior/house/modern-guest-house-exterior-scene-kitchen-bedroom-furniture"],
+    ["Gas Station Complex","ext","modern-gas-station-with-convenience-store-and-fuel-canopy",CG+"exterior/industrial-exterior/modern-gas-station-with-convenience-store-and-fuel-canopy"],
+    ["Cityscape Building Scene","ext","cityscape-building-exterior-scene-f4b73474-6da8-4497-aa45-2b",CG+"exterior/cityscape/cityscape-building-exterior-scene-f4b73474-6da8-4497-aa45-2bd585a05f73"],
+    ["Hill House · Kitchen & Living","int","hill-house-interior-scene-kitchen-living-room-modern-design",CG+"interior/living-room/hill-house-interior-scene-kitchen-living-room-modern-design"],
+    ["Hill House · Master Bedroom","int","modern-hill-house-interior-scene-master-bed-room",CG+"interior/bedroom/modern-hill-house-interior-scene-master-bed-room"],
+    ["Hill House · Modern Bedroom","int","hill-house-interior-scene-bed-room-modern-interior-design",CG+"interior/bedroom/hill-house-interior-scene-bed-room-modern-interior-design"],
+    ["Modern Bedroom","int","modern-bedroom-interior-scene-bedroom-furniture",CG+"interior/bedroom/modern-bedroom-interior-scene-bedroom-furniture"],
+    ["Modern Bedroom 3","int","modern-bedroom-3-interior-scene-bedroom-furniture",CG+"interior/bedroom/modern-bedroom-3-interior-scene-bedroom-furniture"],
+    ["Sofa Cabinet Sideboard","int","sofa-cabinet-furniture-sideboard-3d-model",CG+"furniture/kitchen-cabinet/sofa-cabinet-furniture-sideboard-3d-model"],
+    ["Modern House · 2D drawings A1","dwg","modern-house-exterior-scene-with-furniture-3d-model-2d-drawi",CG+"exterior/house/modern-house-exterior-scene-with-furniture-3d-model-2d-drawing"],
+    ["White House · 2D drawings A1","dwg","white-casa-archiectural-design-exterior-scene",CG+"exterior/house/white-casa-archiectural-design-exterior-scene"],
+    ["Farm House · 2D drawings Arch D","dwg","farm-house-exterior-scene-2d-drawing-arch-d-36x-24-inch",CG+"exterior/house/farm-house-exterior-scene-2d-drawing-arch-d-36x-24-inch"],
+    ["Modern Coffee Shop · 2D drawings A1","dwg","modern-coffee-shop-interior-2d-drawing-a1-size",CG+"interior/other/modern-coffee-shop-interior-2d-drawing-a1-size"],
+    ["Industrial Restaurant & Bar · 2D A1","dwg","industrial-restaurant-and-bar-interior-2d-drawing-a1-size",CG+"interior/other/industrial-restaurant-and-bar-interior-2d-drawing-a1-size"],
+    ["Bedroom Construction Phasing","ani","bedroom-construction-phasing-lumion-12-premiere-template",CG+"interior/bedroom/bedroom-construction-phasing-lumion-12-premiere-template"],
+    ["Pedestrian Bridge Phasing","ani","walking-bridge-construction-phasing-animation-lumion-12-da0b",CG+"exterior/industrial-exterior/walking-bridge-construction-phasing-animation-lumion-12-da0b3ede-3984-484b-9903-7d27ff073bfb"],
+    ["Hill House · Neoclassical Bedroom","free","hill-house-interior-scene-bed-room-neoclassical-interior-des",F+"interior/bedroom/hill-house-interior-scene-bed-room-neoclassical-interior-design"],
+    ["Skoda Kodiaq 2016","free","high-quality-3d-model-of-skoda-kodiaq-2016-realistic-game-re",F+"car/suv/high-quality-3d-model-of-skoda-kodiaq-2016-realistic-game-ready"],
+    ["Ford Crown Victoria 1998","free","1998-ford-crown-victoria-3d-model-23359de1-960e-4cc5-81df-fa",F+"car/car/1998-ford-crown-victoria-3d-model-23359de1-960e-4cc5-81df-fa7e5764e8b1"],
+    ["Dragon Head, cartoon","free","dragon-head-cartoon-style",F+"animal/other/dragon-head-cartoon-style"],
+    ["Cartoon Cat Playing","free","cute-cartoon-cat-playing",F+"animal/mammal/cute-cartoon-cat-playing"]
+  ];
+  var CL={ext:"Exterior",int:"Interior",dwg:"2D drawings",ani:"Lumion template",free:"Free"};
+  var $=function(s,c){return (c||document).querySelector(s)},$$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+  /* listings */
+  $("#listings").innerHTML=R.map(function(r){
+    var media=r.video?'<video src="'+r.video+'" poster="'+r.a+'" muted loop playsinline preload="metadata" data-autoplay></video><span class="tag"><i>●</i> '+r.tagA+'</span>'
+      :'<img src="'+r.a+'" alt="" loading="lazy"><img class="b" src="'+r.b+'" alt="" loading="lazy"><span class="tag"><i>●</i> '+r.tagA+' / '+r.tagB+'</span>';
+    return '<article class="listing"><a class="media rv-img" data-cursor="View" href="'+r.url+'" target="_blank" rel="noopener" aria-label="'+r.name.replace(/<[^>]+>/g,"")+' on CGTrader">'+media+'</a>'+
+      '<div class="info"><span class="no rv">'+r.no+'</span><h3 class="rv">'+r.name+'</h3><p class="rv">'+r.text+'</p>'+
+      '<div class="spec rv">'+r.spec.map(function(s){return '<div><span class="k">'+s[0]+'</span><span class="v">'+s[1]+'</span></div>'}).join("")+'</div>'+
+      '<div class="chips rv">'+r.chips.map(function(c){return '<span>'+c+'</span>'}).join("")+'</div>'+
+      '<a class="cta rv" style="justify-self:start" href="'+r.url+'" target="_blank" rel="noopener">View this residence <span class="ar">↗</span></a></div></article>';
+  }).join("");
+  /* touch: tap toggles day/night instead of navigating on first tap */
+  $$(".listing .media").forEach(function(m){
+    if(!$(".b",m))return;
+    m.addEventListener("click",function(e){if(window.matchMedia("(hover:none)").matches&&!m.classList.contains("alt")){e.preventDefault();m.classList.add("alt")}});
+  });
+
+  /* rooms */
+  $("#rooms").innerHTML=ROOMS.map(function(r){
+    return '<a class="room rv" data-cursor="View" href="'+r.url+'" target="_blank" rel="noopener"><div class="ph"><img src="'+r.a+'" alt="Hill House '+r.name+'" loading="lazy" draggable="false"><img class="b" src="'+r.b+'" alt="" loading="lazy" draggable="false"></div>'+
+      '<div class="meta"><h3>'+r.name+(r.free?'<span class="free">Free</span>':'')+'</h3><span class="mono">'+r.meta+'</span></div></a>';
+  }).join("");
+  var rs=$("#rooms"),down=false,sx=0,sl=0,moved=false;
+  rs.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse")return;down=true;moved=false;sx=e.clientX;sl=rs.scrollLeft});
+  window.addEventListener("pointermove",function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4){moved=true;rs.classList.add("drag")}rs.scrollLeft=sl-dx});
+  window.addEventListener("pointerup",function(){down=false;rs.classList.remove("drag")});
+  rs.addEventListener("click",function(e){if(moved){e.preventDefault();moved=false}},true);
+  function step(d){var w=$(".room",rs).getBoundingClientRect().width+18;rs.scrollBy({left:d*w,behavior:RM?"auto":"smooth"})}
+  $("#rPrev").onclick=function(){step(-1)};$("#rNext").onclick=function(){step(1)};
+
+  /* catalogue */
+  var cats=[["all","All"],["ext","Exteriors"],["int","Interiors"],["dwg","2D drawings"],["ani","Lumion templates"],["free","Free"]];
+  $("#grid").innerHTML=CAT.map(function(c){
+    return '<a class="item" data-c="'+c[1]+'" data-cursor="Open" href="'+c[3]+'" target="_blank" rel="noopener"><div class="ph"><img src="img/cg/'+c[2]+'.webp" alt="'+esc(c[0])+'" loading="lazy"></div>'+
+      '<div class="t"><h3>'+esc(c[0])+'</h3><span class="c">'+CL[c[1]]+'</span></div><span class="go">View on CGTrader ↗</span></a>';
+  }).join("");
+  var cur="all";
+  function setF(k){cur=k;$$("#filters button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.k===k?"true":"false")});
+    $$("#grid .item").forEach(function(it){it.classList.toggle("hide",k!=="all"&&it.dataset.c!==k)})}
+  $("#filters").innerHTML=cats.map(function(c){var n=c[0]==="all"?CAT.length:CAT.filter(function(x){return x[1]===c[0]}).length;return '<button type="button" data-k="'+c[0]+'" aria-pressed="false">'+c[1]+' <span style="opacity:.55">'+n+'</span></button>'}).join("");
+  $$("#filters button").forEach(function(b){b.onclick=function(){setF(b.dataset.k)}});setF("all");
+
+  /* compare slider */
+  var cmp=$("#compare"),ci=$("#cmp");ci.addEventListener("input",function(){cmp.style.setProperty("--x",ci.value+"%")});
+
+  /* reveal + counters */
+  function countUp(el){var to=parseFloat(el.dataset.count),dec=+(el.dataset.dec||0),t0=null;if(RM){return}
+    function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1600);k=1-Math.pow(1-k,4);el.textContent=(to*k).toFixed(dec);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;el.classList.add("in");io.unobserve(el);
+      $$("[data-count]",el).forEach(countUp);
+      if(el.matches&&el.matches(".media")){var v=$("video[data-autoplay]",el);if(v){v.play().catch(function(){})}}})},{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    $$(".rv,.rv-img").forEach(function(el,i){var p=el.parentElement;var sib=p?$$(".rv",p).indexOf(el):0;el.style.transitionDelay=(Math.max(0,sib)*.07)+"s";io.observe(el)});
+  }else{$$(".rv,.rv-img").forEach(function(el){el.classList.add("in")})}
+  setTimeout(function(){$$(".rv,.rv-img").forEach(function(el){if(el.getBoundingClientRect().top<innerHeight)el.classList.add("in")})},2600);
+
+  /* parallax */
+  var par=$$("[data-par]");
+  function onScroll(){var y=scrollY;$("#nav").classList.toggle("solid",y>40);
+    if(RM)return;par.forEach(function(im){var r=im.parentElement.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;var p=(r.top+r.height/2-innerHeight/2)/innerHeight;im.style.transform="translateY("+(-8+p*-10)+"%)"})}
+  addEventListener("scroll",onScroll,{passive:true});onScroll();
+
+  /* hero light chips synced to the film (4 × 4 s) */
+  var hv=$("#heroVid"),chips=$$(".lights .l");
+  function tick(){var i=Math.min(3,Math.floor((hv.currentTime||0)/4));chips.forEach(function(c,j){c.classList.toggle("on",j===i)});requestAnimationFrame(tick)}
+  if(hv){hv.play&&hv.play().catch(function(){});requestAnimationFrame(tick)}
+
+  /* cursor */
+  var cu=$("#cursor"),cx=0,cy=0,tx=0,ty=0;
+  if(window.matchMedia("(hover:hover)").matches&&!RM){
+    addEventListener("mousemove",function(e){tx=e.clientX;ty=e.clientY});
+    (function mv(){cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;cu.style.left=cx+"px";cu.style.top=cy+"px";requestAnimationFrame(mv)})();
+    document.addEventListener("mouseover",function(e){var t=e.target.closest&&e.target.closest("[data-cursor]");if(t){cu.textContent=t.dataset.cursor;cu.classList.add("on")}else cu.classList.remove("on")});
+  }
+
+  /* menu */
+  var sh=$("#sheet"),mb=$("#menuBtn");
+  function menu(o){sh.classList.toggle("open",o);mb.setAttribute("aria-expanded",o?"true":"false");document.body.style.overflow=o?"hidden":""}
+  mb.onclick=function(){menu(true)};$("#menuClose").onclick=function(){menu(false)};$$("#sheet a").forEach(function(a){a.addEventListener("click",function(){menu(false)})});
+  addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
+
+  /* loader: counts real progress (fonts + hero film), never longer than 2.4 s */
+  var ld=$("#loader"),cnt=$("#count"),lb=$("#lbar"),shown=0,target=10,done=false,t0=performance.now();
+  function finish(){if(done)return;done=true;target=100}
+  (document.fonts&&document.fonts.ready||Promise.resolve()).then(function(){target=Math.max(target,55)});
+  if(hv){hv.addEventListener("canplay",function(){target=Math.max(target,90);setTimeout(finish,250)},{once:true})}
+  setTimeout(finish,2400);
+  (function anim(){shown+=(target-shown)*.09;if(target-shown<.6)shown=target;cnt.textContent=Math.round(shown)+"%";lb.style.transform="scaleX("+shown/100+")";
+    if(shown>=100&&done){setTimeout(function(){ld.classList.add("out");document.documentElement.classList.add("ready");setTimeout(function(){ld.remove()},1200)},180);return}
+    requestAnimationFrame(anim)})();
+  if(RM){finish()}
+  setTimeout(function(){if(ld.isConnected){ld.classList.add("out");document.documentElement.classList.add("ready");setTimeout(function(){ld.remove()},1200)}},4000);
+})();
+</script>
+</body>
+</html>
