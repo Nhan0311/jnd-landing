@@ -226,7 +226,13 @@ section{position:relative}
 .item .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-top:1px solid var(--line-l);padding-top:10px}
 .item h3{font:400 23px/1.12 var(--f-disp)}
 .item .c{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-l);white-space:nowrap}
-.item .go{font-size:13px;color:var(--mute-l)}
+.item .go{font-size:13px;color:var(--mute-l);text-decoration:none}
+.golinks{display:flex;gap:16px}
+.item .ph{display:block}
+.item .go:hover{color:var(--oak)}
+.room .watch{font-size:13px;color:var(--mute-l);text-decoration:none}
+.room .ph{display:block}
+.room .watch:hover{color:var(--oak)}
 .item:hover .go{color:var(--oak)}
 
 /* 06 free */
@@ -286,7 +292,7 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Just Necessary, back to top"><b>Just <em>Necessary</em></b><span>3D residences</span></a>
+    <a class="brand" href="https://portfolio.hotrongnhan.org/" target="_blank" rel="noopener" aria-label="Just Necessary, open the portfolio"><b>Just <em>Necessary</em></b><span>3D residences</span></a>
     <ul class="links">
       <li><a href="#proposition"><small>01</small>Proposition</a></li>
       <li><a href="#residences"><small>02</small>Residences</a></li>
@@ -480,36 +486,36 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
 (function(){
   var CG="https://www.cgtrader.com/3d-models/";
   var R=[
-    {no:"No. 01",name:"Villa <em>Horizontal</em>",a:"img/villa-day.webp",b:"img/villa-night.webp",tagA:"Day",tagB:"Night",
+    {no:"No. 01",name:"Villa <em>Horizontal</em>",yt:"fPDsTou6-2I",a:"img/villa-day.webp",b:"img/villa-night.webp",tagA:"Day",tagB:"Night",
      text:"A long, low villa of stacked horizontal planes around a pool and fire-pit garden, with a seven-sheet LayOut drawing set.",
      spec:[["Faces","908,547"],["Cameras","10"],["Materials","49"],["Drawing sheets","7"]],chips:["SketchUp","Lumion","Blender","Day + night"],
      url:CG+"exterior/house/villa-horizontal-with-furniture-3d-model"},
-    {no:"No. 02",name:"Modern <em>Hill House</em>",a:"img/hill-day.webp",b:"img/hill-night.webp",tagA:"Day",tagB:"Night",
+    {no:"No. 02",name:"Modern <em>Hill House</em>",yt:"7uJ_uuEKZrY",a:"img/hill-day.webp",b:"img/hill-night.webp",tagA:"Day",tagB:"Night",
      text:"A house set into a hillside, stone and timber over the pool terrace, with four interiors sold as separate scenes.",
      spec:[["Faces","3,243,340"],["Cameras","15"],["Textures","139"],["Drawing sheets","10"]],chips:["4 lighting setups","15 PSDs","Full 2D set"],
      url:CG+"exterior/house/modern-hill-house-exterior-scene-with-fully-furniture-3d-model"},
-    {no:"No. 03",name:"Modern <em>Tropical Villa</em>",video:"media/japi-daynight.mp4",a:"img/japi-day.webp",tagA:"Day to night",
+    {no:"No. 03",name:"Modern <em>Tropical Villa</em>",yt:"MQVDO4iGUSE",video:"media/japi-daynight.mp4",a:"img/japi-day.webp",tagA:"Day to night",
      text:"A brick-and-concrete tropical villa opening onto a reflecting pool, shipped with full PBR map sets for brick and concrete.",
      spec:[["Faces","3,386,096"],["Cameras","10"],["Materials","225"],["Passes / render","4"]],chips:["PBR maps","Day + night","10 PSDs"],
      url:CG+"exterior/house/modern-tropical-villa-exterior-3d-model-with-pool-and-garden"},
-    {no:"No. 04",name:"Residential <em>Highrise</em>",a:"img/tower-1.webp",b:"img/tower-2.webp",tagA:"Day",tagB:"Dusk",
+    {no:"No. 04",name:"Residential <em>Highrise</em>",yt:"0bOTxXqBiBQ",a:"img/tower-1.webp",b:"img/tower-2.webp",tagA:"Day",tagB:"Dusk",
      text:"A residential tower in its city block, with every material named by its specification section, from 07 42 43 to 12 05 13.",
      spec:[["Faces","5,321,642"],["Cameras","11"],["Maps","130"],["PSDs","11"]],chips:["4 lighting setups","Spec-named materials"],
      url:CG+"exterior/skyscraper/residential-highrise-building-exterior-scene"},
-    {no:"No. 05",name:"Holiday <em>House</em>",a:"img/holiday-dawn.webp",b:"img/holiday-night.webp",tagA:"Dawn",tagB:"Night",
+    {no:"No. 05",name:"Holiday <em>House</em>",yt:"ZfAgRSfnhzE",a:"img/holiday-dawn.webp",b:"img/holiday-night.webp",tagA:"Dawn",tagB:"Night",
      text:"Gabled timber volumes around a long pool. One camera path, rendered at day, dawn, overcast and night.",
      spec:[["Faces","1,681,080"],["Cameras","10"],["Textures","177"],["Passes / render","4"]],chips:["Full 2D set","4 lighting setups"],
      url:CG+"exterior/house/holiday-house-exterior-scene-kitchen-bedroom-furniture"},
-    {no:"No. 06",name:"Modern <em>House</em>",a:"img/modern-day.webp",b:"img/modern-night.webp",tagA:"Day",tagB:"Night",
+    {no:"No. 06",name:"Modern <em>House</em>",yt:"cz0ERq85aNA",a:"img/modern-day.webp",b:"img/modern-night.webp",tagA:"Day",tagB:"Night",
      text:"A glass pavilion house with a stone chimney wall and pool, sold with an A1 architectural drawing set.",
      spec:[["Faces","612,252"],["Cameras","9"],["Materials","96"],["PSDs","9"]],chips:["2D drawings A1","4 lighting setups"],
      url:CG+"exterior/house/modern-house-exterior-scene-with-furniture-3d-model-2d-drawing"}
   ];
   var ROOMS=[
-    {name:"Kitchen & Living",a:"img/kitchen-1.webp",b:"img/kitchen-3.webp",meta:"3,274,757 faces · 10 cameras",url:CG+"interior/living-room/hill-house-interior-scene-kitchen-living-room-modern-design"},
-    {name:"Master Bedroom",a:"img/master-1.webp",b:"img/master-2.webp",meta:"105 SketchUp materials · 7 cameras",url:CG+"interior/bedroom/modern-hill-house-interior-scene-master-bed-room"},
-    {name:"Modern Bedroom",a:"img/modbed-1.webp",b:"img/modbed-2.webp",meta:"8,651 groups · 10 cameras",url:CG+"interior/bedroom/hill-house-interior-scene-bed-room-modern-interior-design"},
-    {name:"Neoclassical Bedroom",free:1,a:"img/neo-1.webp",b:"img/neo-2.webp",meta:"1,264,470 faces · 8 cameras",url:"https://www.cgtrader.com/free-3d-models/interior/bedroom/hill-house-interior-scene-bed-room-neoclassical-interior-design"}
+    {name:"Kitchen & Living",yt:"Bd5lRfRvImU",a:"img/kitchen-1.webp",b:"img/kitchen-3.webp",meta:"3,274,757 faces · 10 cameras",url:CG+"interior/living-room/hill-house-interior-scene-kitchen-living-room-modern-design"},
+    {name:"Master Bedroom",yt:"b60YrPGLPyA",a:"img/master-1.webp",b:"img/master-2.webp",meta:"105 SketchUp materials · 7 cameras",url:CG+"interior/bedroom/modern-hill-house-interior-scene-master-bed-room"},
+    {name:"Modern Bedroom",yt:"ab3CLYKyrfk",a:"img/modbed-1.webp",b:"img/modbed-2.webp",meta:"8,651 groups · 10 cameras",url:CG+"interior/bedroom/hill-house-interior-scene-bed-room-modern-interior-design"},
+    {name:"Neoclassical Bedroom",yt:"7yBhiE9I6YU",free:1,a:"img/neo-1.webp",b:"img/neo-2.webp",meta:"1,264,470 faces · 8 cameras",url:"https://www.cgtrader.com/free-3d-models/interior/bedroom/hill-house-interior-scene-bed-room-neoclassical-interior-design"}
   ];
   var F="https://www.cgtrader.com/free-3d-models/";
   var CAT=[
@@ -541,6 +547,7 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
     ["Dragon Head, cartoon","free","dragon-head-cartoon-style",F+"animal/other/dragon-head-cartoon-style"],
     ["Cartoon Cat Playing","free","cute-cartoon-cat-playing",F+"animal/mammal/cute-cartoon-cat-playing"]
   ];
+  var YT={"villa-horizontal-with-furniture-3d-model":"fPDsTou6-2I","modern-hill-house-exterior-scene-with-fully-furniture-3d-mod":"7uJ_uuEKZrY","modern-tropical-villa-exterior-3d-model-with-pool-and-garden":"MQVDO4iGUSE","residential-highrise-building-exterior-scene":"0bOTxXqBiBQ","residential-building-exterior-scene":"aTi8-JRoz5w","holiday-house-exterior-scene-kitchen-bedroom-furniture":"ZfAgRSfnhzE","hill-house-interior-scene-kitchen-living-room-modern-design":"Bd5lRfRvImU","modern-hill-house-interior-scene-master-bed-room":"b60YrPGLPyA","hill-house-interior-scene-bed-room-modern-interior-design":"ab3CLYKyrfk","modern-house-exterior-scene-with-furniture-3d-model-2d-drawi":"cz0ERq85aNA","modern-coffee-shop-interior-2d-drawing-a1-size":"Ou9IUlAeCZo","bedroom-construction-phasing-lumion-12-premiere-template":"OTwy-SiBJNY","walking-bridge-construction-phasing-animation-lumion-12-da0b":"gmeWPsKRxvw","hill-house-interior-scene-bed-room-neoclassical-interior-des":"7yBhiE9I6YU"};
   var CL={ext:"Exterior",int:"Interior",dwg:"2D drawings",ani:"Lumion template",free:"Free"};
   var $=function(s,c){return (c||document).querySelector(s)},$$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
   var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -554,7 +561,7 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
       '<div class="info"><span class="no rv">'+r.no+'</span><h3 class="rv">'+r.name+'</h3><p class="rv">'+r.text+'</p>'+
       '<div class="spec rv">'+r.spec.map(function(s){return '<div><span class="k">'+s[0]+'</span><span class="v">'+s[1]+'</span></div>'}).join("")+'</div>'+
       '<div class="chips rv">'+r.chips.map(function(c){return '<span>'+c+'</span>'}).join("")+'</div>'+
-      '<a class="cta rv" style="justify-self:start" href="'+r.url+'" target="_blank" rel="noopener">View this residence <span class="ar">↗</span></a></div></article>';
+      '<div class="rv" style="display:flex;gap:10px;flex-wrap:wrap"><a class="cta fill" href="'+r.url+'" target="_blank" rel="noopener">View this residence <span class="ar">↗</span></a>'+(r.yt?'<a class="cta" href="https://www.youtube.com/watch?v='+r.yt+'" target="_blank" rel="noopener">▶ Watch the film</a>':'')+'</div></div></article>';
   }).join("");
   /* touch: tap toggles day/night instead of navigating on first tap */
   $$(".listing .media").forEach(function(m){
@@ -564,8 +571,8 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
 
   /* rooms */
   $("#rooms").innerHTML=ROOMS.map(function(r){
-    return '<a class="room rv" data-cursor="View" href="'+r.url+'" target="_blank" rel="noopener"><div class="ph"><img src="'+r.a+'" alt="Hill House '+r.name+'" loading="lazy" draggable="false"><img class="b" src="'+r.b+'" alt="" loading="lazy" draggable="false"></div>'+
-      '<div class="meta"><h3>'+r.name+(r.free?'<span class="free">Free</span>':'')+'</h3><span class="mono">'+r.meta+'</span></div></a>';
+    return '<div class="room rv"><a class="ph" data-cursor="View" href="'+r.url+'" target="_blank" rel="noopener" aria-label="Hill House '+r.name+' on CGTrader"><img src="'+r.a+'" alt="Hill House '+r.name+'" loading="lazy" draggable="false"><img class="b" src="'+r.b+'" alt="" loading="lazy" draggable="false"></a>'+
+      '<div class="meta"><h3>'+r.name+(r.free?'<span class="free">Free</span>':'')+'</h3><span class="mono">'+r.meta+'</span></div><div class="golinks"><a class="watch" href="'+r.url+'" target="_blank" rel="noopener">CGTrader ↗</a><a class="watch" href="https://www.youtube.com/watch?v='+r.yt+'" target="_blank" rel="noopener">▶ Watch the film</a></div></div>';
   }).join("");
   var rs=$("#rooms"),down=false,sx=0,sl=0,moved=false;
   rs.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse")return;down=true;moved=false;sx=e.clientX;sl=rs.scrollLeft});
@@ -578,8 +585,9 @@ footer{background:var(--basalt);padding-top:clamp(80px,10vw,140px);padding-botto
   /* catalogue */
   var cats=[["all","All"],["ext","Exteriors"],["int","Interiors"],["dwg","2D drawings"],["ani","Lumion templates"],["free","Free"]];
   $("#grid").innerHTML=CAT.map(function(c){
-    return '<a class="item" data-c="'+c[1]+'" data-cursor="Open" href="'+c[3]+'" target="_blank" rel="noopener"><div class="ph"><img src="img/cg/'+c[2]+'.webp" alt="'+esc(c[0])+'" loading="lazy"></div>'+
-      '<div class="t"><h3>'+esc(c[0])+'</h3><span class="c">'+CL[c[1]]+'</span></div><span class="go">View on CGTrader ↗</span></a>';
+    var y=YT[c[2]];
+    return '<div class="item" data-c="'+c[1]+'"><a class="ph" data-cursor="Open" href="'+c[3]+'" target="_blank" rel="noopener"><img src="img/cg/'+c[2]+'.webp" alt="'+esc(c[0])+'" loading="lazy"></a>'+
+      '<div class="t"><h3>'+esc(c[0])+'</h3><span class="c">'+CL[c[1]]+'</span></div><div class="golinks"><a class="go" href="'+c[3]+'" target="_blank" rel="noopener">CGTrader ↗</a>'+(y?'<a class="go" href="https://www.youtube.com/watch?v='+y+'" target="_blank" rel="noopener">▶ Film</a>':'')+'</div></div>';
   }).join("");
   var cur="all";
   function setF(k){cur=k;$$("#filters button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.k===k?"true":"false")});
